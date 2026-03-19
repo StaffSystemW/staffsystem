@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/AuthService/">
+    <Project Path="AuthService/Application/Application.csproj" />
+    <Project Path="AuthService/Infrastructure/Infrastructure.csproj" />
+    <Project Path="AuthService/Presentation/Presentation.csproj" />
+  </Folder>
+  <Folder Name="/BookingService/">
+    <Project Path="BookingService/Application/Application.csproj" />
+    <Project Path="BookingService/Data/Infrastructure.csproj" />
+    <Project Path="BookingService/Domain/Domain.csproj" />
+    <Project Path="BookingService/Presentation/Presentation.csproj" />
+  </Folder>
+  <Folder Name="/ProfileService/">
+    <Project Path="ProfileService/Application/Application.csproj" />
+    <Project Path="ProfileService/Domain/Domain.csproj" />
+    <Project Path="ProfileService/Infrastructure/Infrastructure.csproj" />
+    <Project Path="ProfileService/Presentation/Presentation.csproj" />
+  </Folder>
+  <Folder Name="/WorkshiftService/">
+    <Project Path="WorkshiftService/Application/Application.csproj" />
+    <Project Path="WorkshiftService/Data/Infrastructure.csproj" />
+    <Project Path="WorkshiftService/Domain/Domain.csproj" />
+    <Project Path="WorkshiftService/Presentation/Presentation.csproj" />
+  </Folder>
+</Solution>
