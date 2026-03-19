@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "AuthService\\Presentation\\Presentation.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "BookingService\\Presentation\\Presentation.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ProfileService\\Presentation\\Presentation.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "WorkshiftService\\Presentation\\Presentation.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "YarpGateway\\Gateway.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
