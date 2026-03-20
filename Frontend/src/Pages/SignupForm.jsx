@@ -2,25 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signUp } from "../api/auth";
 
-const SignupForm = async () => {
-  const [user, setUser] = useState();
+const SignupForm = () => {
+  const [user, setUser] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("user", user);
 
     try {
-      const userData = await signUp(
-        user.Email,
-        user.Password,
-        user.ConfirmPassword
-      );
+      const userData = await signUp(user);
       console.log("Signed in user:", userData);
     } catch (err) {
       alert(err.message);
     }
   };
 
-  const handleChange = async (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prevState) => ({ ...prevState, [name]: value }));
   };
