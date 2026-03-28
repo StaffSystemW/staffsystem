@@ -10,8 +10,11 @@ export const getWorkshift = (workshiftId) => {
   return apiFetch(API_ENDPOINTS.workshift, workshiftId);
 };
 
-export const createWorkshift = ({ payload }) => {
-  return apiFetch(API_ENDPOINTS.workshift, "create", payload);
+export const createWorkshift = (payload) => {
+  return apiFetch(API_ENDPOINTS.workshift, "create", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 };
 
 export const updateWorkshift = (payload, id) => {
@@ -22,6 +25,8 @@ export const updateWorkshift = (payload, id) => {
   });
 };
 
-export const deleteWorkshift = (payload) => {
-  return apiFetch(API_ENDPOINTS.workshift, "delete", payload);
+export const deleteWorkshift = (id) => {
+  return apiFetch(API_ENDPOINTS.workshift, `${id}`, {
+    method: "DELETE",
+  });
 };

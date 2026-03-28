@@ -6,15 +6,9 @@ import { getWorkshifts } from "../api";
 
 const WorkshiftsPage = () => {
   const [workshifts, setWorkshifts] = useState([]);
-  const { isAuthenticated } = useAuth();
-
-  //authorityLevel temporarily set
-  const authorityLevel = "";
+  const { isAuthenticated, hasAnyRole } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
     const fetchData = async () => {
       try {
         const workshiftsData = await getWorkshifts();
@@ -25,22 +19,20 @@ const WorkshiftsPage = () => {
     };
 
     fetchData();
-  }, [isAuthenticated]);
+  }, []);
 
   return (
     <div className="home_container">
       <h1>Lediga pass att boka</h1>
       <div className="home_content-container">
-        {authorityLevel == "Anställd" ? (
-          ""
-        ) : (
+        {hasAnyRole(["Admin", "Passledare"]) && (
           <Link to={"/add"} className="home_add-workshift">
             <p>+</p>
           </Link>
         )}
 
         {workshifts.map((workshift) => (
-          <WorkshiftCard workshift={workshift} />
+          <WorkshiftCard key={workshift.id} workshift={workshift} />
         ))}
       </div>
     </div>

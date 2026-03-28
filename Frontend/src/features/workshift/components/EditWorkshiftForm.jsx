@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateWorkshift, getWorkshift } from "../api";
+import { getWorkshift, updateWorkshift } from "../api";
 
 const EditWorkshiftForm = () => {
   const navigate = useNavigate();

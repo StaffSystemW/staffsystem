@@ -27,7 +27,9 @@ export function AuthProvider({ children }) {
     } catch (error) {
       setUser(null);
       setUserProfile(null);
-      console.error(error);
+      if (error?.status !== 401) {
+        console.error("Auth check failed", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -39,12 +41,20 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    await signOut();
-    setUser(null);
+    try {
+      await signOut();
+    } finally {
+      setUser(null);
+      setUserProfile(null);
+    }
   }
 
   function hasRole(role) {
     return user?.roles?.includes(role);
+  }
+
+  function hasAnyRole(roles = []) {
+    return roles.some((role) => user?.roles?.includes(role));
   }
 
   function isAdmin() {
@@ -68,6 +78,7 @@ export function AuthProvider({ children }) {
     logout,
     refresh: checkAuth,
     hasRole,
+    hasAnyRole,
     isAdmin,
   };
 
