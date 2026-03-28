@@ -1,16 +1,17 @@
 ﻿namespace Application.Commands.RegisterUser;
 using Application.Contracts.Events;
 using Application.Interfaces;
+using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, string>
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly IEventPublisher _eventPublisher;
 
     public RegisterUserHandler(
-        UserManager<IdentityUser> userManager,
+        UserManager<AppUser> userManager,
         IEventPublisher eventPublisher)
     {
         _userManager = userManager;
@@ -21,7 +22,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, string>
         RegisterUserCommand request,
         CancellationToken cancellationToken)
     {
-        var user = new IdentityUser
+        var user = new AppUser
         {
             Id = Guid.NewGuid().ToString(),
             UserName = request.Email,

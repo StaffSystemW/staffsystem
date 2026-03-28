@@ -1,7 +1,6 @@
-const LOCALHOST_DOMAIN = "https://localhost:";
-const GATEWAY_PORT = "7265";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:7265";
 
-export const BASE_URL = `${LOCALHOST_DOMAIN}${GATEWAY_PORT}`;
+export { BASE_URL };
 
 export const API_ENDPOINTS = {
   auth: `${BASE_URL}/auth`,

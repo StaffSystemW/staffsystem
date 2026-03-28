@@ -5,7 +5,7 @@ using Domain.Entities;
 using System.Linq.Expressions;
 
 namespace Application.Services;
-public class WorkshiftService(IWorkshiftRepository workshiftRepository) : IWorkshiftService
+public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorkshiftService
 {
     private readonly IWorkshiftRepository _repository = workshiftRepository;
 

@@ -5,7 +5,7 @@ using Domain.Entities;
 using System.Linq.Expressions;
 
 namespace Application.Services;
-public class BookingService(IBookingRepository repository) : IBookingService
+public class BookingManager(IBookingRepository repository) : IBookingService
 {
     private readonly IBookingRepository _repository = repository;
 

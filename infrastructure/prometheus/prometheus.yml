@@ -1,18 +1,23 @@
 global:
-  scrape_interval: 5s
-  evaluation_interval: 5s
+  scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'gateway'
-    metrics_path: /metrics
+  - job_name: "yarp-gateway"
     static_configs:
-      - targets: ['host.docker.internal:5000']
+      - targets: ["yarp-gateway:8080"]
 
-  - job_name: 'services'
-    metrics_path: /metrics
+  - job_name: "auth-api"
     static_configs:
-      - targets:
-          - 'host.docker.internal:5001'
-          - 'host.docker.internal:5002'
-          - 'host.docker.internal:5003'
-          - 'host.docker.internal:5004'
+      - targets: ["auth-api:8080"]
+
+  - job_name: "profile-api"
+    static_configs:
+      - targets: ["profile-api:8080"]
+
+  - job_name: "booking-api"
+    static_configs:
+      - targets: ["booking-api:8080"]
+
+  - job_name: "workshift-api"
+    static_configs:
+      - targets: ["workshift-api:8080"]

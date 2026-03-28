@@ -1,68 +1,115 @@
-version: '3.8'
+version: "3.8"
 
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver-dev
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SA_PASSWORD}
     ports:
       - "1433:1433"
     volumes:
       - sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'SQL Server container is running'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   auth-api:
-    build: ./AuthService
+    build:
+      context: ./AuthService
+      dockerfile: Dockerfile
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Server=sqlserver;Database=${AUTH_DB};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True
     depends_on:
       - sqlserver
+    ports:
+      - "5001:8080"
 
   profile-api:
-    build: ./ProfileService
+    build:
+      context: ./ProfileService
+      dockerfile: Dockerfile
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Server=sqlserver;Database=${PROFILE_DB};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True
     depends_on:
       - sqlserver
+    ports:
+      - "5002:8080"
 
   booking-api:
-    build: ./BookingService
+    build:
+      context: ./BookingService
+      dockerfile: Dockerfile
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Server=sqlserver;Database=${BOOKING_DB};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True
     depends_on:
       - sqlserver
+    ports:
+      - "5003:8080"
 
   workshift-api:
-    build: ./WorkshiftService
+    build:
+      context: ./WorkshiftService
+      dockerfile: Dockerfile
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Server=sqlserver;Database=${WORKSHIFT_DB};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True
     depends_on:
       - sqlserver
+    ports:
+      - "5004:8080"
 
   yarp-gateway:
-    build: ./YarpGateway
+    build:
+      context: ./YarpGateway
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://+:8080
     ports:
-      - "5000:80"
+      - "5000:8080"
     depends_on:
       - auth-api
       - profile-api
       - booking-api
       - workshift-api
 
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000
+    ports:
+      - "3000:80"
+    depends_on:
+      - yarp-gateway
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./Infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
 

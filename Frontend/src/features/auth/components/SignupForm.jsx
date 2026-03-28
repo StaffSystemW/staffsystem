@@ -26,6 +26,7 @@ const SignupForm = () => {
     }
 
     try {
+      console.log("form:", form);
       setLoading(true);
 
       await signUp(form);

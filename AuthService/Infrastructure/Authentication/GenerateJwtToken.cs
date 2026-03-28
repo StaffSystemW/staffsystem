@@ -5,12 +5,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Interfaces;
+using Domain.Models;
 
 namespace Infrastructure.Authentication;
 
 public class JwtTokenHelper : IJwtTokenHelper
 {
-    public async Task<string> GenerateToken(IdentityUser user, IConfiguration configuration, UserManager<IdentityUser> userManager)
+    public async Task<string> GenerateToken(AppUser user, IConfiguration configuration, UserManager<AppUser> userManager)
     {
         ArgumentNullException.ThrowIfNull(user);
 
@@ -48,7 +49,7 @@ public class JwtTokenHelper : IJwtTokenHelper
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public string GenerateRefreshToken(IdentityUser user, IConfiguration configuration)
+    public string GenerateRefreshToken(AppUser user, IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(user);
 
