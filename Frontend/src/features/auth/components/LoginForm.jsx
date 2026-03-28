@@ -4,6 +4,8 @@ import { useAuth } from "../../../context/AuthProvider";
 
 const LoginForm = () => {
   const { login } = useAuth();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -16,10 +18,13 @@ const LoginForm = () => {
 
     console.log("user", user);
     try {
+      setLoading(true);
       await login(user.email, user.password);
       navigate("/bookings");
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,6 +43,7 @@ const LoginForm = () => {
           name="email"
           type="email"
           placeholder="Email"
+          disabled={loading}
         />
       </div>
       <div className="login_input-group">
@@ -47,9 +53,10 @@ const LoginForm = () => {
           name="password"
           type="password"
           placeholder="Password"
+          disabled={loading}
         />
       </div>
-      <button className="button button-alt" type="submit">
+      <button className="button button-alt" type="submit" disabled={loading}>
         Logga in
       </button>
     </form>

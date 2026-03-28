@@ -20,12 +20,12 @@ a {
 }
 
 html {
-  background-color: beige;
+  background-color: #2b9e98;
   height: 100%;
 }
 
 main {
-  background-color: beige;
+  background-color: #2b9e98;
   padding: 1rem;
 }
 
@@ -154,21 +154,28 @@ main {
 .button {
   display: flex;
   justify-content: center;
-  padding-block: 0.5rem;
+  padding-block: 1rem;
   font-weight: 600;
   cursor: pointer;
+  border-radius: 9px;
 }
 
 .button-prim {
-  background-color: lightseagreen;
+  background-color: #e6c97a;
   color: white;
   border: 3px solid transparent;
 }
 
-.button-alt {
+.button-alt:hover {
   background-color: white;
-  color: rgb(25, 139, 134);
-  border: 3px solid lightseagreen;
+  color: #2b9e98;
+  border: 3px solid #2b9e98;
+}
+
+.button-alt {
+  background-color: #2b9e98;
+  color: white;
+  border: 3px solid transparent;
 }
 
 .complete-profile {
@@ -203,4 +210,47 @@ main {
   background-color: black;
   border: 1px solid black;
   color: white;
+}
+
+.login_page {
+  display: grid;
+  place-items: center;
+  margin-top: 10rem;
+}
+
+.login_container {
+  background-color: white;
+  padding: 5rem 4rem;
+  min-width: 40rem;
+  display: grid;
+  gap: 2rem;
+  box-shadow: 1px 1px 5px 5px #278d88;
+  border-radius: 40px;
+}
+
+.login_container form {
+  display: grid;
+  gap: 2rem;
+}
+
+.login_container form h1 {
+  text-align: center;
+}
+
+.login_container button {
+  margin-top: 1rem;
+}
+
+.login_input-group {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.login_input-group input {
+  padding: 1rem;
+  border-radius: 9px;
+}
+
+.no-account_group {
+  text-align: center;
 }
