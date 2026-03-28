@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getMe, signIn, signOut } from "../api/auth";
-import { getCurrentUserProfile } from "../api/profile";
+import { getMe, signIn, signOut } from "../features/auth/api";
+import { getCurrentUserProfile } from "../features/profile/api";
 
 export const AuthContext = createContext();
 
@@ -27,7 +27,9 @@ export function AuthProvider({ children }) {
     } catch (error) {
       setUser(null);
       setUserProfile(null);
-      console.error(error);
+      if (error?.status !== 401) {
+        console.error("Auth check failed", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -35,33 +37,48 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     await signIn(email, password);
-    await checkAuth();
+    return await checkAuth();
   }
 
   async function logout() {
-    await signOut();
-    setUser(null);
+    try {
+      await signOut();
+    } finally {
+      setUser(null);
+      setUserProfile(null);
+    }
   }
 
   function hasRole(role) {
     return user?.roles?.includes(role);
   }
 
+  function hasAnyRole(roles = []) {
+    return roles.some((role) => user?.roles?.includes(role));
+  }
+
   function isAdmin() {
     return hasRole("Admin");
   }
+
+  const isAuthenticated = !!user;
+  const hasProfile = !!userProfile;
+  const isProfileComplete = !!userProfile?.isComplete;
 
   const value = {
     user,
     userProfile,
     setUserProfile,
     roles: user?.roles || [],
-    isAuthenticated: !!user,
+    isAuthenticated,
+    hasProfile,
+    isProfileComplete,
     loading,
     login,
     logout,
     refresh: checkAuth,
     hasRole,
+    hasAnyRole,
     isAdmin,
   };
 

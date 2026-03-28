@@ -25,7 +25,7 @@ public class WorkshiftController(IWorkshiftService workshiftService) : Controlle
         var result = await _service.CreateAsync(form, userId);
         if (result.Succeeded)
         {
-            return Ok();
+            return Ok(new ApiResponse(true, "Workshift was added", result));
         }
         return BadRequest(ModelState);
     }
@@ -37,7 +37,7 @@ public class WorkshiftController(IWorkshiftService workshiftService) : Controlle
         var result = await _service.GetAllAsync();
         if (result.Succeeded)
         {
-            return Ok(new ApiResponse(true, "Workshifts were fetched" , result.Result));
+            return Ok(new ApiResponse(true, "Workshifts were fetched", result.Result));
         }
         return StatusCode(500);
 
@@ -56,7 +56,7 @@ public class WorkshiftController(IWorkshiftService workshiftService) : Controlle
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin,Passledare")]
-    public async Task<IActionResult> Update([FromRoute]string id, [FromBody] WorkshiftUpdateForm form)
+    public async Task<IActionResult> Update([FromRoute] string id, [FromBody] WorkshiftUpdateForm form)
     {
         if (ModelState.IsValid)
         {
@@ -71,16 +71,17 @@ public class WorkshiftController(IWorkshiftService workshiftService) : Controlle
         return BadRequest(ModelState);
     }
 
-    [HttpDelete("delete")]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,Passledare")]
-    public async Task<IActionResult> Delete([FromBody]string id)
+    public async Task<IActionResult> Delete(string id)
     {
         var result = await _service.DeleteAsync(id);
+
         if (result.Succeeded)
         {
-            return Ok();
+            return Ok(new ApiResponse(true, "Workshift was deleted"));
         }
-        return StatusCode(500);
+        return StatusCode(500, "Workshift could not be deleted");
     }
 
 }
