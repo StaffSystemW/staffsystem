@@ -1,3 +1,6 @@
+import "./LoginForm.css";
+import {ArrowRight} from "lucide-react"
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthProvider";
@@ -58,7 +61,8 @@ const LoginForm = () => {
         />
       </div>
       <button className="button button-prim" type="submit" disabled={loading}>
-        Logga in
+        {loading ? "Loggar in..." : "Logga in"}
+        {!loading && <ArrowRight className="login_icon_arrowright"/>}
       </button>
     </form>
   );

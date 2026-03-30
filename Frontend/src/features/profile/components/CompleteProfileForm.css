@@ -1,0 +1,14 @@
+.complete-profile form {
+  padding-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.complete_input-group{
+    display: grid;
+}
+
+.complete_input-group div{
+    
+}
+
