@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
+import loginPhoto from "../../../assets/login_photo.jpg";
 
 const LoginPage = () => {
   return (
     <div className="login_page">
       <div className="login_container">
-        <LoginForm />
-        <div className="no-account_group">
-          <p>Har du inget konto?</p>
-          <Link to={"/signup"}>Klicka här för att registrera dig</Link>
+        <div className="login_left-side">
+          <LoginForm className="login_form" />
+          <div className="no-account_group">
+            <p>Har du inget konto än?</p>
+            <Link to={"/signup"}>Registrera konto</Link>
+          </div>
         </div>
+        <img src={loginPhoto} />
       </div>
     </div>
   );
