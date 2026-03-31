@@ -1,3 +1,6 @@
+import "./SignupForm.css"
+import {ArrowRight} from "lucide-react"
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../api";
@@ -43,10 +46,11 @@ const SignupForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Registrera</h1>
+      <h1 className="login_first-header">Välkommen</h1>
+      <h1>Registrera ett nytt konto</h1>
 
-      <div className="login_input-group">
-        <label>Email</label>
+      <div className="signup_input-group">
+        <label>Mejladress</label>
         <input
           disabled={loading}
           value={form.email}
@@ -60,8 +64,8 @@ const SignupForm = () => {
         />
       </div>
 
-      <div className="login_input-group">
-        <label>Password</label>
+      <div className="signup_input-group">
+        <label>Lösenord</label>
         <input
           disabled={loading}
           value={form.password}
@@ -76,8 +80,8 @@ const SignupForm = () => {
         />
       </div>
 
-      <div className="login_input-group">
-        <label>Confirm password</label>
+      <div className="signup_input-group">
+        <label>Bekräfta lösenord</label>
         <input
           disabled={loading}
           value={form.confirmPassword}
@@ -96,8 +100,9 @@ const SignupForm = () => {
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Registrerar..." : "Registrera"}
+      <button type="submit" disabled={loading} className="button button-prim">
+        {loading ? "Skapar konto..." : "Skapa konto"}
+        {!loading && <ArrowRight className="login_icon_arrowright"/>}
       </button>
     </form>
   );

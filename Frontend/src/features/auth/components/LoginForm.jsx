@@ -1,3 +1,6 @@
+import "./LoginForm.css";
+import {ArrowRight} from "lucide-react"
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthProvider";
@@ -35,29 +38,31 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Logga in</h1>
+      <h1 className="login_first-header">Logga in på</h1>
+      <h1>Personalportalen</h1>
       <div className="login_input-group">
-        <label>Email</label>
+        <label>Mejladress</label>
         <input
           onChange={handleChange}
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="Ange din mejladress"
           disabled={loading}
         />
       </div>
       <div className="login_input-group">
-        <label>Password</label>
+        <label>Lösenord</label>
         <input
           onChange={handleChange}
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="Ange ditt lösenord"
           disabled={loading}
         />
       </div>
-      <button className="button button-alt" type="submit" disabled={loading}>
-        Logga in
+      <button className="button button-prim" type="submit" disabled={loading}>
+        {loading ? "Loggar in..." : "Logga in"}
+        {!loading && <ArrowRight className="login_icon_arrowright"/>}
       </button>
     </form>
   );
