@@ -1,10 +1,12 @@
-import ProtectedRoute from "../Components/ProtectedRoute";
-import ProfileCompletionGuard from "../../features/profile/components/ProfileCompletionGuard";
+import { Outlet } from 'react-router-dom';
+import ProfileCompletionGuard from '../../features/profile/components/ProfileCompletionGuard';
 
-const ProtectedProfileRoute = ({ children }) => {
+const ProtectedProfileRoute = () => {
   return (
     <ProtectedRoute>
-      <ProfileCompletionGuard>{children}</ProfileCompletionGuard>
+      <ProfileCompletionGuard>
+        <Outlet />
+      </ProfileCompletionGuard>
     </ProtectedRoute>
   );
 };

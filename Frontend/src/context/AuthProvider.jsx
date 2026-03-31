@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { getMe, signIn, signOut } from "../features/auth/api";
-import { getCurrentUserProfile } from "../features/profile/api";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { getMe, signIn, signOut } from '../features/auth/api';
+import { getCurrentUserProfile } from '../features/profile/api';
+import { env } from '../shared/config/env';
 
 export const AuthContext = createContext();
 
@@ -14,6 +15,12 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function checkAuth() {
+    if (env.enableDevAuthBypass) {
+      return {
+        isAuthenticated: true,
+        //TODO: Sätt user och userProfile här till demo-data
+      };
+    }
     try {
       const userData = await getMe();
       setUser(userData);
@@ -28,7 +35,7 @@ export function AuthProvider({ children }) {
       setUser(null);
       setUserProfile(null);
       if (error?.status !== 401) {
-        console.error("Auth check failed", error);
+        console.error('Auth check failed', error);
       }
     } finally {
       setLoading(false);
@@ -58,7 +65,7 @@ export function AuthProvider({ children }) {
   }
 
   function isAdmin() {
-    return hasRole("Admin");
+    return hasRole('Admin');
   }
 
   const isAuthenticated = !!user;
@@ -88,7 +95,7 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used insid AuthProvider");
+    throw new Error('useAuth must be used insid AuthProvider');
   }
   return context;
 }
