@@ -15,15 +15,39 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function checkAuth() {
-    if (env.enableDevAuthBypass) {
-      return {
-        isAuthenticated: true,
-        //TODO: Sätt user och userProfile här till demo-data
-      };
-    }
     try {
+      if (env.enableDevAuthBypass) {
+        const demoUser = {
+          id: 1,
+          email: 'demo@example.com',
+          roles: ['Admin'],
+        };
+
+        const demoProfile = {
+          email: 'demo@example.com',
+          firstName: 'Rasmus',
+          lastName: 'Waleij',
+          phoneNumber: '0763941212',
+          address: {
+            id: 10,
+            street: 'Kvarntorget 11',
+            city: 'Uppsala',
+            state: 'test',
+            zipCode: '75421',
+            country: 'test',
+          },
+
+          isComplete: true,
+        };
+
+        setUser(demoUser);
+        setUserProfile(demoProfile);
+        return;
+      }
+
       const userData = await getMe();
       setUser(userData);
+
       try {
         const profileUserData = await getCurrentUserProfile();
         setUserProfile(profileUserData);
@@ -34,6 +58,7 @@ export function AuthProvider({ children }) {
     } catch (error) {
       setUser(null);
       setUserProfile(null);
+
       if (error?.status !== 401) {
         console.error('Auth check failed', error);
       }

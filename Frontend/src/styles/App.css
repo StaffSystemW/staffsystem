@@ -12,6 +12,7 @@
 }
 
 html {
+  scrollbar-gutter: stable;
 }
 
 main {
@@ -105,12 +106,12 @@ label {
 }
 
 .standard-form_input-group-flex {
-  display: flex;
+  display: grid;
   gap: 0.5rem;
 }
 
 .standard-form_input-group-flex div {
-  display: grid;
+  display: flex;
   gap: 0.5rem;
 }
 
@@ -121,6 +122,18 @@ label {
 .standard-form_icon {
   height: 16px;
   width: 16px;
+}
+
+/* --- Utility classes --- */
+
+.input-error {
+  color: #d32f2f;
+  font-size: 0.875rem;
+  margin-top: 0.35rem;
+}
+
+input[aria-invalid='true'] {
+  border: 1px solid #d32f2f;
 }
 
 /* --- MISC --- */

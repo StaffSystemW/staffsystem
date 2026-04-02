@@ -1,11 +1,10 @@
-import './CompleteProfileForm.css';
-import { ArrowRight } from 'lucide-react';
-import React, { useState } from 'react';
-import { completeProfile } from '../api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthProvider';
+import { ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { completeProfile } from '../api';
 
-const CompleteProfileForm = () => {
+const ProfileUpdateForm = () => {
   const navigate = useNavigate();
   const { userProfile, refresh } = useAuth();
 
@@ -44,6 +43,27 @@ const CompleteProfileForm = () => {
     zipCode: false,
     city: false,
   });
+
+  useEffect(() => {
+    if (!userProfile) return;
+
+    const profile = userProfile?.data || userProfile;
+
+    setForm({
+      firstName: profile?.firstName || '',
+      lastName: profile?.lastName || '',
+      phoneNumber: profile?.phoneNumber || '',
+      imageUrl: profile?.imageUrl || '',
+      address: {
+        id: profile?.address?.id || 10,
+        street: profile?.address?.street || '',
+        city: profile?.address?.city || '',
+        state: profile?.address?.state || 'test',
+        zipCode: profile?.address?.zipCode || '',
+        country: profile?.address?.country || 'test',
+      },
+    });
+  }, [userProfile]);
 
   const validateField = (name, value) => {
     const trimmedValue = value.trim();
@@ -102,6 +122,10 @@ const CompleteProfileForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    if (error) {
+      setError('');
+    }
+
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -117,6 +141,10 @@ const CompleteProfileForm = () => {
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
+
+    if (error) {
+      setError('');
+    }
 
     setForm((prev) => ({
       ...prev,
@@ -215,83 +243,108 @@ const CompleteProfileForm = () => {
 
       await completeProfile(cleanedForm);
       await refresh();
+
       navigate('/konto');
     } catch (err) {
       console.error('Completion of profile failed', err);
-      setError(err?.response?.data?.message || err.message || 'Något gick fel');
+
+      const apiErrors = err?.response?.data?.errors;
+
+      if (apiErrors) {
+        setErrors((prev) => ({
+          ...prev,
+          firstName: apiErrors.FirstName?.[0] || prev.firstName,
+          lastName: apiErrors.LastName?.[0] || prev.lastName,
+          phoneNumber: apiErrors.PhoneNumber?.[0] || prev.phoneNumber,
+          street: apiErrors['Address.Street']?.[0] || prev.street,
+          zipCode: apiErrors['Address.ZipCode']?.[0] || prev.zipCode,
+          city: apiErrors['Address.City']?.[0] || prev.city,
+        }));
+
+        setTouched({
+          firstName: true,
+          lastName: true,
+          phoneNumber: true,
+          street: true,
+          zipCode: true,
+          city: true,
+        });
+
+        setError(null);
+      } else {
+        setError(
+          err?.response?.data?.message || err.message || 'Något gick fel',
+        );
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const profile = userProfile?.data || userProfile;
+
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <div className="complete_input-group">
+    <form className="standard-form" onSubmit={handleSubmit} noValidate>
+      <div className="standard-form_input-group">
         <label htmlFor="email">Mejladress</label>
         <input
           id="email"
           type="email"
           disabled
           placeholder="Email"
-          value={userProfile?.data?.email || ''}
+          value={profile?.email || ''}
           autoComplete="email"
         />
       </div>
 
-      <div className="complete_input-group">
+      <div className="standard-form_input-group-flex">
         <label htmlFor="first-name">Namn</label>
         <div>
-          <div>
-            <input
-              id="first-name"
-              type="text"
-              name="firstName"
-              autoComplete="given-name"
-              placeholder="Ange ditt förnamn"
-              disabled={loading}
-              value={form.firstName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              required
-              maxLength={50}
-              aria-invalid={!!errors.firstName}
-              aria-describedby={
-                errors.firstName ? 'first-name-error' : undefined
-              }
-            />
-            {touched.firstName && errors.firstName && (
-              <p id="first-name-error" className="input-error">
-                {errors.firstName}
-              </p>
-            )}
-          </div>
+          <input
+            id="first-name"
+            type="text"
+            name="firstName"
+            placeholder="Förnamn"
+            autoComplete="given-name"
+            disabled={loading}
+            value={form.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            required
+            maxLength={50}
+            aria-invalid={!!errors.firstName}
+            aria-describedby={errors.firstName ? 'first-name-error' : undefined}
+          />
+          {touched.firstName && errors.firstName && (
+            <p id="first-name-error" className="input-error">
+              {errors.firstName}
+            </p>
+          )}
 
-          <div>
-            <input
-              id="last-name"
-              type="text"
-              name="lastName"
-              autoComplete="family-name"
-              placeholder="Efternamn"
-              disabled={loading}
-              value={form.lastName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              required
-              maxLength={50}
-              aria-invalid={!!errors.lastName}
-              aria-describedby={errors.lastName ? 'last-name-error' : undefined}
-            />
-            {touched.lastName && errors.lastName && (
-              <p id="last-name-error" className="input-error">
-                {errors.lastName}
-              </p>
-            )}
-          </div>
+          <input
+            id="last-name"
+            type="text"
+            name="lastName"
+            placeholder="Efternamn"
+            autoComplete="family-name"
+            disabled={loading}
+            value={form.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            required
+            maxLength={50}
+            aria-invalid={!!errors.lastName}
+            aria-describedby={errors.lastName ? 'last-name-error' : undefined}
+          />
+          {touched.lastName && errors.lastName && (
+            <p id="last-name-error" className="input-error">
+              {errors.lastName}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="complete_input-group">
+      <div className="standard-form_input-group">
         <label htmlFor="phone-number">Telefon</label>
         <input
           id="phone-number"
@@ -316,29 +369,27 @@ const CompleteProfileForm = () => {
         )}
       </div>
 
-      <div className="complete_input-group address">
+      <div className="standard-form_input-group-flex">
         <label htmlFor="street">Adress</label>
 
-        <div>
-          <input
-            id="street"
-            type="text"
-            name="street"
-            placeholder="Gata"
-            autoComplete="street-address"
-            disabled={loading}
-            value={form.address.street}
-            onChange={handleAddressChange}
-            onBlur={handleAddressBlur}
-            aria-invalid={!!errors.street}
-            aria-describedby={errors.street ? 'street-error' : undefined}
-          />
-          {touched.street && errors.street && (
-            <p id="street-error" className="input-error">
-              {errors.street}
-            </p>
-          )}
-        </div>
+        <input
+          id="street"
+          type="text"
+          name="street"
+          placeholder="Gata"
+          autoComplete="street-address"
+          disabled={loading}
+          value={form.address.street}
+          onChange={handleAddressChange}
+          onBlur={handleAddressBlur}
+          aria-invalid={!!errors.street}
+          aria-describedby={errors.street ? 'street-error' : undefined}
+        />
+        {touched.street && errors.street && (
+          <p id="street-error" className="input-error">
+            {errors.street}
+          </p>
+        )}
 
         <div>
           <div>
@@ -389,11 +440,11 @@ const CompleteProfileForm = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <button disabled={loading} type="submit" className="button button-prim">
-        {loading ? 'Sparar...' : 'Spara'}
-        {!loading && <ArrowRight className="complete_icon_arrow" />}
+        {loading ? 'Uppdaterar...' : 'Uppdatera'}
+        {!loading && <ArrowRight className="account_icon_arrow" />}
       </button>
     </form>
   );
 };
 
-export default CompleteProfileForm;
+export default ProfileUpdateForm;
