@@ -24,7 +24,7 @@ builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 // Services
-builder.Services.AddScoped<IProfileService, Application.Services.ProfileService>();
+builder.Services.AddScoped<IProfileService, Application.Services.ProfileManager>();
 
 
 builder.Services.AddControllers();
@@ -91,6 +91,14 @@ builder.Services.AddAuthorizationBuilder()
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

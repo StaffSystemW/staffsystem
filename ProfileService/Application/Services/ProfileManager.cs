@@ -7,7 +7,7 @@ using Domain.Entities;
 
 namespace Application.Services;
 
-public class ProfileService(IProfileRepository profileRepository, IAddressRepository addressRepository) : IProfileService
+public class ProfileManager(IProfileRepository profileRepository, IAddressRepository addressRepository) : IProfileService
 {
     private readonly IProfileRepository _profileRepository = profileRepository;
     private readonly IAddressRepository _addressRepository = addressRepository;

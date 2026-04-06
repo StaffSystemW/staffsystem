@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20260331144612_Init")]
+    [Migration("20260406191529_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,38 +25,36 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.WorkshiftEntity", b =>
+            modelBuilder.Entity("Domain.Entities.BookingEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AddedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("AddedTime")
+                    b.Property<DateTime>("BookingCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Area")
+                    b.Property<string>("BookingMadeById")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Endtime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Level")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Starttime")
+                    b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkshiftId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workshifts");
+                    b.ToTable("Bookings");
                 });
 #pragma warning restore 612, 618
         }

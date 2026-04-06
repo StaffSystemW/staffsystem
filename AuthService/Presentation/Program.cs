@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Application.Services;
 using Application.Validators;
+using Domain.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Authentication;
@@ -22,9 +23,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddMemoryCache();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthManager>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services
+    .AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
@@ -128,8 +130,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<DataContext>();
+
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    await SeedData.InitializeAsync(context, userManager, roleManager);
 
     string[] roles = { "Admin", "Anställd", "Passledare" };
     foreach (var role in roles)
@@ -143,7 +150,7 @@ using (var scope = app.Services.CreateScope())
     var adminUser = await userManager.FindByEmailAsync(adminEmail!);
     if (adminUser == null)
     {
-        var newAdminUser = new IdentityUser
+        var newAdminUser = new AppUser
         {
             UserName = adminEmail,
             Email = adminEmail,
@@ -167,7 +174,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapHealthChecks("/health");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();

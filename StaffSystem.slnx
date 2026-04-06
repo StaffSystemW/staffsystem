@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/AuthService/">
     <Project Path="AuthService/Application/Application.csproj" />
+    <Project Path="AuthService/Domain/Domain.csproj" Id="1c8b7123-ad30-4530-8ccd-3440840510fa" />
     <Project Path="AuthService/Infrastructure/Infrastructure.csproj" />
     <Project Path="AuthService/Presentation/Presentation.csproj" />
   </Folder>

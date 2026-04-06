@@ -1,6 +1,6 @@
-import { env } from './env';
-
-export const BASE_URL = env.apiGatewayUrl;
+const LOCALHOST_DOMAIN = 'https://localhost:';
+const GATEWAY_PORT = '7265';
+export const BASE_URL = `${LOCALHOST_DOMAIN}${GATEWAY_PORT}`;
 
 export const API_ENDPOINTS = {
   auth: `${BASE_URL}/auth`,

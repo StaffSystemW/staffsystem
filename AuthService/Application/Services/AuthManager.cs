@@ -2,6 +2,7 @@
 using Application.Dtos;
 using Application.Interfaces;
 using Application.Models;
+using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,10 +11,10 @@ using System.Security.Claims;
 using System.Text;
 
 namespace Application.Services;
-public class AuthService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IJwtTokenHelper jwtTokenHelper, IEventPublisher eventPublisher) : IAuthService
+public class AuthManager(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IJwtTokenHelper jwtTokenHelper, IEventPublisher eventPublisher) : IAuthService
 {
-    private readonly UserManager<IdentityUser> _userManager = userManager;
-    private readonly SignInManager<IdentityUser> _signInManager = signInManager;
+    private readonly UserManager<AppUser> _userManager = userManager;
+    private readonly SignInManager<AppUser> _signInManager = signInManager;
     private readonly RoleManager<IdentityRole> _roleManager = roleManager;
     private readonly IConfiguration _configuration = configuration;
     private readonly IJwtTokenHelper _jwtTokenHelper = jwtTokenHelper;
@@ -26,7 +27,7 @@ public class AuthService(UserManager<IdentityUser> userManager, SignInManager<Id
             if (existingAccount != null)
                 return ServiceResult<SignUpResponseDto>.Fail("Email is already in use", 409);
 
-            var newUser = new IdentityUser
+            var newUser = new AppUser
             {
                 UserName = request.Email,
                 Email = request.Email,
