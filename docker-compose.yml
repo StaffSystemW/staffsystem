@@ -1,12 +1,12 @@
-version: '3.8'
+version: "3.8"
 
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver-dev
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SQL_PASSWORD}
     ports:
       - "1433:1433"
     volumes:
@@ -17,7 +17,8 @@ services:
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__DefaultConnection: ${AUTH_CONNECTION_STRING}
     depends_on:
       - sqlserver
 
@@ -26,7 +27,8 @@ services:
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__DefaultConnection: ${PROFILE_CONNECTION_STRING}
     depends_on:
       - sqlserver
 
@@ -35,7 +37,8 @@ services:
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__DefaultConnection: ${BOOKING_CONNECTION_STRING}
     depends_on:
       - sqlserver
 
@@ -44,7 +47,8 @@ services:
     env_file:
       - .env
     environment:
-      - ConnectionStrings__DefaultConnection=${LOCAL_DB_STRING}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__DefaultConnection: ${WORKSHIFT_CONNECTION_STRING}
     depends_on:
       - sqlserver
 
