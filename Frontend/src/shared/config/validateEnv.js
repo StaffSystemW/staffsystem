@@ -4,16 +4,16 @@ export function validateEnv() {
   const errors = [];
 
   if (!env.apiGatewayUrl) {
-    errors.push('VITE_API_GATEWAY_URL is missing');
+    errors.push('VITE_API_BASE_URL is missing');
   } else {
     try {
       new URL(env.apiGatewayUrl);
     } catch {
-      errors.push('VITE_API_GATEWAY_URL is not a valid URL');
+      errors.push('VITE_API_BASE_URL is not a valid URL');
     }
 
     if (env.apiGatewayUrl.endsWith('/')) {
-      errors.push('VITE_API_GATEWAY_URL should not end with a trailing slash');
+      errors.push('VITE_API_BASE_URL should not end with a trailing slash');
     }
   }
 
