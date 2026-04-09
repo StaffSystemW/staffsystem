@@ -188,9 +188,7 @@ const LoginForm = () => {
           </p>
         )}
       </div>
-
       {error && <ErrorMessage message={error} />}
-
       <button className="button button-prim" type="submit" disabled={loading}>
         {loading ? 'Loggar in...' : 'Logga in'}
         {!loading && <ArrowRight className="login_icon_arrowright" />}
