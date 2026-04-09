@@ -44,7 +44,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         Response.Cookies.Append("accessToken", result.Data.Token, new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
+            Secure = false,
             SameSite = SameSiteMode.Lax,
             Expires = DateTime.UtcNow.AddMinutes(15)
         });
@@ -52,7 +52,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         Response.Cookies.Append("refreshToken", result.Data.RefreshToken, new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
+            Secure = false,
             SameSite = SameSiteMode.Lax,
             Expires = DateTime.UtcNow.AddDays(7)
         });
