@@ -1,0 +1,29 @@
+.app-main {
+  padding: var(--space-lg) var(--space-sm) var(--space-xl);
+}
+
+.app-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.app-container--narrow {
+  max-width: var(--container-narrow);
+}
+
+.page-section {
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.standard-form_page {
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}

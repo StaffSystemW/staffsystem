@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../api';
 import { useAuth } from '../../../context/AuthProvider';
+import ErrorMessage from '../../../shared/components/ErrorMessage';
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -172,7 +173,8 @@ const SignupForm = () => {
       navigate('/bookings', { replace: true });
     } catch (err) {
       console.error('Signup failed:', err);
-      setError(err?.response?.data?.message || err.message || 'Något gick fel');
+      console.log('err: ', err);
+      setError(err?.message || err.message || 'Något gick fel');
     } finally {
       setLoading(false);
     }
@@ -236,7 +238,11 @@ const SignupForm = () => {
           id="confirm-password"
           type="password"
           name="confirmPassword"
-          autoComplete="new-password"
+          autoComplete={
+            import.meta.env.DEV
+              ? import.meta.env.VITE_TYPE_OF_PW_AUTOCOMPLETE
+              : 'new-password'
+          }
           placeholder="Bekräfta ditt lösenord"
           disabled={loading}
           value={credentials.confirmPassword}
@@ -255,7 +261,7 @@ const SignupForm = () => {
         )}
       </div>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <ErrorMessage message={error} />}
 
       <button type="submit" disabled={loading} className="button button-prim">
         {loading ? 'Skapar konto...' : 'Skapa konto'}

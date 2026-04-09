@@ -10,8 +10,8 @@ export const env = {
   isProd: import.meta.env.PROD,
 
   apiGatewayUrl: required(
-    import.meta.env.VITE_API_GATEWAY_URL,
-    'VITE_API_GATEWAY_URL',
+    import.meta.env.VITE_API_BASE_URL,
+    'VITE_API_BASE_URL',
   ),
 
   enableDevAuthBypass:
