@@ -15,8 +15,6 @@ Instead of building multiple small demos, I focused on creating **one realistic 
 The project includes and implements:
 
 - Clean architecture
-- DevSecOps pipelines
-- Automated testing
 - Observability
 - Scalable system design
 
@@ -26,7 +24,8 @@ The application is **publicly deployed** and can also be **run locally using Doc
 
 ## Screenshots
 
-Ska lägga in bilder här
+![Screenshot](images/screenshot_login.png)
+![Screenshot](images/screenshot_signup.png)
 
 ## Quick Overview (for recruiters)
 
@@ -43,44 +42,28 @@ Managing employee work shifts where:
 **Backend**
 
 - ASP.NET Web API
-- Clean Architecture / Vertical Slice
+- Clean Architecture
 - FluentValidation
-- AutoMapper
 
 **Frontend**
 
 - React
-- TypeScript
-- React Query
 
 **Infrastructure**
 
 - YARP API Gateway
 - Docker
-- GitHub Actions CI/CD
 
 **Observability**
 
-- Serilog logging
 - OpenTelemetry distributed tracing
 - Health checks
-
-**Testing**
-
-- Unit tests
-- Integration tests
-- Testcontainers
 
 ## DevOps Capabilities Demonstrated
 
 This project demonstrates several DevOps and DevSecOps practices:
 
 • Containerized services using Docker  
-• CI/CD pipelines with GitHub Actions  
-• Automated unit and integration testing  
-• Security scanning (SAST + dependency scanning)  
-• SBOM generation  
-• Structured logging using Serilog  
 • Distributed tracing using OpenTelemetry  
 • Health monitoring endpoints  
 • API Gateway architecture using YARP
@@ -95,9 +78,6 @@ Frontend
 API Gateway
 `https://your-api-url`
 
-Swagger
-`https://your-api-url/swagger`
-
 ---
 
 ## Deployment
@@ -110,14 +90,10 @@ Deployment setup:
 - YARP API Gateway for routing
 - ASP.NET APIs running behind the gateway
 - Environment configuration via environment variables
-- CI/CD pipeline using GitHub Actions
 
 Deployment flow:
 
 Developer Push
-│
-▼
-GitHub Actions CI
 │
 ▼
 Docker image build
@@ -142,30 +118,6 @@ This project represents the **engineering practices I want to bring into my firs
 
 ---
 
-## System Architecture
-
-High level architecture:
-
-```
-        ┌───────────────┐
-        │   React App   │
-        └───────┬───────┘
-                │
-                ▼
-        ┌───────────────┐
-        │   YARP Gateway│
-        └───────┬───────┘
-                │
-                ▼
-     ┌─────────────────────────┐
-     │     ASP.NET Web APIs    │
-     │  Clean / Vertical Slice │
-     └─────────────┬───────────┘
-                   │
-                   ▼
-               Database
-```
-
 ### Design goals
 
 - Maintainable architecture
@@ -178,7 +130,6 @@ High level architecture:
 
 - SOLID
 - Clean Architecture
-- Vertical Slice Architecture
 - API-first design
 
 ---
@@ -188,8 +139,7 @@ High level architecture:
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/workshift.git
-cd workshift
+git clone https://github.com/StaffSystemW/staffsystem.git
 ```
 
 ### Run locally with Docker
@@ -203,27 +153,22 @@ Services will start automatically.
 ```
 Frontend: http://localhost:3000
 API Gateway: http://localhost:8080
-Swagger: http://localhost:8080/swagger
 ```
 
 ---
 
 ## Frontend
 
-The frontend is built using **React and TypeScript** with a focus on maintainability and good UX patterns.
+The frontend is built using **React** with a focus on maintainability and good UX patterns.
 
 ### Key Features
 
-- Type-safe frontend using TypeScript
 - Component-driven architecture
-- React Query for server state management
 - Dedicated API service layer
 - Protected routes
 - Form validation
 - Error handling
 - Loading states
-- Responsive design
-- Dark mode
 
 ### Example structure
 
@@ -242,17 +187,15 @@ frontend
 
 ## Backend
 
-The backend consists of **ASP.NET Web APIs** designed around **Clean Architecture and Vertical Slice patterns**.
+The backend consists of **ASP.NET Web APIs** designed around **Clean Architecture**.
 
 ### Features
 
 - RESTful CRUD endpoints
 - FluentValidation request validation
 - Global exception handling middleware
-- AutoMapper object mapping
 - Dependency injection
 - Health checks
-- Structured logging
 
 ### Development principles
 
