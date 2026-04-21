@@ -16,5 +16,7 @@ COPY --from=build /app/dist /usr/share/nginx/html/personalportalen
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+RUN ls -la /etc/nginx/conf.d/
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
