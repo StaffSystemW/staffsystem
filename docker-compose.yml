@@ -37,7 +37,7 @@ services:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: http://+:8080
       ConnectionStrings__DefaultConnection: ${AUTH_CONNECTION_STRING}
-      ServiceBus__SubscriptionName: profile-service-dev
+      ServiceBus__TopicName: user-events
 
     depends_on:
       sqlserver:
