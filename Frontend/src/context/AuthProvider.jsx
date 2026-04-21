@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { getMe, signIn, signOut } from '../features/auth/api';
-import { getCurrentUserProfile } from '../features/profile/api';
+import {
+  getCurrentUserProfile,
+  getCurrentUserProfileWithRetry,
+} from '../features/profile/api';
 import { env } from '../shared/config/env';
 
 export const AuthContext = createContext();
@@ -59,7 +62,7 @@ export function AuthProvider({ children }) {
       setUser(userData);
 
       try {
-        const profileData = await getCurrentUserProfile();
+        const profileData = await getCurrentUserProfileWithRetry();
         setUserProfile(profileData);
       } catch (err) {
         console.error('Failed to fetch profile', err);
@@ -82,7 +85,7 @@ export function AuthProvider({ children }) {
     setProfileRefreshing(true);
 
     try {
-      const profileData = await getCurrentUserProfile();
+      const profileData = await getCurrentUserProfileWithRetry();
       setUserProfile(profileData);
       return profileData;
     } catch (err) {

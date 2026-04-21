@@ -1,12 +1,13 @@
-﻿
-using Application.Contracts.Events;
-using Azure.Messaging.ServiceBus;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
+﻿using Application.Contracts.Events;
 using Application.EventHandlers;
+using Azure.Messaging.ServiceBus;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
 namespace Infrastructure.Messaging;
+
 public class UserCreatedEventConsumer : IHostedService
 {
     private readonly ServiceBusProcessor _processor;
@@ -14,18 +15,27 @@ public class UserCreatedEventConsumer : IHostedService
 
     public UserCreatedEventConsumer(
         ServiceBusClient client,
-        IServiceScopeFactory scopeFactory)
+        IServiceScopeFactory scopeFactory,
+        IConfiguration configuration)
     {
         _scopeFactory = scopeFactory;
 
+        var subscriptionName = configuration["ServiceBus:SubscriptionName"];
+
         _processor = client.CreateProcessor(
             "user-events",
-            "profile-service",
-            new ServiceBusProcessorOptions());
+            subscriptionName,
+            new ServiceBusProcessorOptions
+            {
+                AutoCompleteMessages = false,
+                MaxConcurrentCalls = 1
+            });
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        Console.WriteLine("🚀 Consumer started");
+
         _processor.ProcessMessageAsync += ProcessMessage;
         _processor.ProcessErrorAsync += ProcessError;
 
@@ -34,38 +44,35 @@ public class UserCreatedEventConsumer : IHostedService
 
     private async Task ProcessMessage(ProcessMessageEventArgs args)
     {
-        try
-        {
-            var body = args.Message.Body.ToString();
+        Console.WriteLine($"[Consumer] Received: {args.Message.MessageId}");
+        var body = args.Message.Body.ToString();
 
-            var userCreatedEvent =
-                JsonSerializer.Deserialize<UserCreatedEvent>(body);
+        var userCreatedEvent =
+            JsonSerializer.Deserialize<UserCreatedEvent>(body);
 
-            using var scope = _scopeFactory.CreateScope();
+        if (userCreatedEvent == null)
+            throw new Exception("Invalid message payload");
 
-            var handler =
-                scope.ServiceProvider
-                    .GetRequiredService<UserCreatedEventHandler>();
+        using var scope = _scopeFactory.CreateScope();
 
-       
-            await handler.Handle(userCreatedEvent);
+        var handler =
+            scope.ServiceProvider
+                .GetRequiredService<UserCreatedEventHandler>();
 
-            await args.CompleteMessageAsync(args.Message);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
+        await handler.Handle(userCreatedEvent);
+
+        await args.CompleteMessageAsync(args.Message);
     }
 
     private Task ProcessError(ProcessErrorEventArgs args)
     {
-        Console.WriteLine(args.Exception);
+        Console.WriteLine($"ServiceBus error: {args.Exception}");
         return Task.CompletedTask;
     }
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         await _processor.StopProcessingAsync(cancellationToken);
+        await _processor.DisposeAsync();
     }
 }

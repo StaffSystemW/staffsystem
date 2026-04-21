@@ -3,16 +3,22 @@ import { env } from './env';
 export function validateEnv() {
   const errors = [];
 
-  if (!env.apiGatewayUrl) {
+  const value = env.apiGatewayUrl;
+
+  if (!value) {
     errors.push('VITE_API_BASE_URL is missing');
   } else {
-    try {
-      new URL(env.apiGatewayUrl);
-    } catch {
-      errors.push('VITE_API_BASE_URL is not a valid URL');
+    const isRelative = value.startsWith('/');
+
+    if (!isRelative) {
+      try {
+        new URL(value);
+      } catch {
+        errors.push('VITE_API_BASE_URL must be a valid URL or start with /');
+      }
     }
 
-    if (env.apiGatewayUrl.endsWith('/')) {
+    if (value.endsWith('/')) {
       errors.push('VITE_API_BASE_URL should not end with a trailing slash');
     }
   }

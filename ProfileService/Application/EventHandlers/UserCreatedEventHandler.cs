@@ -16,33 +16,29 @@ public class UserCreatedEventHandler
 
     public async Task Handle(UserCreatedEvent evt)
     {
+        Console.WriteLine($"[HANDLER START] UserId: {evt.UserId}");
+
+        var profile = new ProfileEntity
+        {
+            Id = Guid.NewGuid(),
+            UserId = evt.UserId,
+            EmailAddress = evt.Email,
+            FirstName = "",
+            LastName = "",
+            PhoneNumber = "",
+            ImageUrl = "",
+            AddressId = null,
+            IsProfileCompleted = false
+        };
+
         try
         {
-            var exists = await _profileRepository.ExistsByUserIdAsync(evt.UserId);
-
-            if (exists)
-                return;
-
-            var profile = new ProfileEntity
-            {
-                Id = Guid.NewGuid(),
-                UserId = evt.UserId,
-                EmailAddress = evt.Email,
-                FirstName = "",
-                LastName = "",
-                PhoneNumber = "",
-                ImageUrl = "",
-                AddressId = null,
-                IsProfileCompleted = false
-
-            };
-
             await _profileRepository.AddAsync(profile);
             await _profileRepository.SaveAsync();
+            Console.WriteLine($"[PROFILE CREATED] UserId: {evt.UserId}");
         }
         catch (DbUpdateException)
         {
-            // 🔥 Viktigt: detta är OK (duplicate event)
             Console.WriteLine("Duplicate profile prevented by DB constraint");
         }
     }
