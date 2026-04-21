@@ -12,7 +12,7 @@ public class ServiceBusPublisher : IEventPublisher
     public ServiceBusPublisher(IConfiguration config)
     {
         var client = new ServiceBusClient(config["ServiceBus:ConnectionString"]);
-        _sender = client.CreateSender(config["ServiceBus:TopicName"]);
+        _sender = client.CreateSender(config["ServiceBus:SubscriptionName"]);
     }
 
     public async Task PublishUserCreated(UserCreatedEvent evt)
