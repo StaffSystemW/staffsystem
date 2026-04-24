@@ -28,8 +28,11 @@ Console.WriteLine($"ENVIRONMENT: {builder.Environment.EnvironmentName}");
 
 builder.Services
     .AddReverseProxy()
-    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
-
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+    .ConfigureHttpClient((_, handler) =>
+     {
+         handler.AllowAutoRedirect = false;
+     });
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
