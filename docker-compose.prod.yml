@@ -10,24 +10,28 @@ services:
   auth-api:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Server=sqlserver,1433;Database=AuthDb;User Id=sa;Password=${SQL_PASSWORD};TrustServerCertificate=True;
     env_file:
       - .env.prod
 
   profile-api:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Server=sqlserver,1433;Database=ProfileDb;User Id=sa;Password=${SQL_PASSWORD};TrustServerCertificate=True;
     env_file:
       - .env.prod
 
   booking-api:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Server=sqlserver,1433;Database=BookingDb;User Id=sa;Password=${SQL_PASSWORD};TrustServerCertificate=True;
     env_file:
       - .env.prod
 
   workshift-api:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Server=sqlserver,1433;Database=WorkShiftDb;User Id=sa;Password=${SQL_PASSWORD};TrustServerCertificate=True;
     env_file:
       - .env.prod
 
