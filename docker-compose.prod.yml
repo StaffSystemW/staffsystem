@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  sqlserver:
+    env_file:
+      - .env.prod
+
+  auth-api:
+    env_file:
+      - .env.prod
+
+  profile-api:
+    env_file:
+      - .env.prod
+
+  booking-api:
+    env_file:
+      - .env.prod
+
+  workshift-api:
+    env_file:
+      - .env.prod
+
+  yarp-gateway:
+    env_file:
+      - .env.prod
+
+  frontend:
+    env_file:
+      - .env.prod
