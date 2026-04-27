@@ -2,29 +2,43 @@ version: "3.8"
 
 services:
   sqlserver:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
 
   auth-api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
 
   profile-api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
 
   booking-api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
 
   workshift-api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
 
   yarp-gateway:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
 
   frontend:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     env_file:
       - .env.prod
