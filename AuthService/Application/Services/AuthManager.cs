@@ -130,8 +130,6 @@ public class AuthManager(UserManager<AppUser> userManager, SignInManager<AppUser
         });
     }
 
-
-    // Check if user with email already exists
     public async Task<bool> UserExists(VerifyEmailRequestDto request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);

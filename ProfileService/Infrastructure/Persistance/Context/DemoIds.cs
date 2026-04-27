@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Context;
+﻿namespace Infrastructure.Persistance.Context;
 
 public static class DemoIds
 {

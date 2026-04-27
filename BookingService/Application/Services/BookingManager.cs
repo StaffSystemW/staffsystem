@@ -139,7 +139,6 @@ public class BookingManager(IBookingRepository repository) : IBookingService
                     LastUpdated = orgEntity.LastUpdated
                 };
 
-                //Osäker på om denna kommer krocka med res över när det hämtar en entity...
                 var updateRes = await _repository.UpdateAsync(newEntity);
                 if (updateRes.Succeeded)
                 {

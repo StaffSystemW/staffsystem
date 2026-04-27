@@ -1,9 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { getMe, signIn, signOut } from '../features/auth/api';
-import {
-  getCurrentUserProfile,
-  getCurrentUserProfileWithRetry,
-} from '../features/profile/api';
+import { getCurrentUserProfileWithRetry } from '../features/profile/api';
 import { env } from '../shared/config/env';
 
 export const AuthContext = createContext();
@@ -37,17 +34,17 @@ export function AuthProvider({ children }) {
           message: 'Success',
           statusCode: 200,
           data: {
-            email: 'demo@example.com',
-            firstName: 'Rasmus',
-            lastName: 'Waleij',
-            phoneNumber: '0763941212',
+            email: 'demo@domain.com',
+            firstName: 'Kalle',
+            lastName: 'Karlsson',
+            phoneNumber: '0704513265',
             address: {
               id: 10,
-              street: 'Kvarntorget 11',
-              city: 'Uppsala',
-              state: 'test',
-              zipCode: '75421',
-              country: 'test',
+              street: 'Storgatan 11',
+              city: 'Stockholm',
+              state: 'Stockholms län',
+              zipCode: '76542',
+              country: 'Sweden',
             },
             isProfileCompleted: true,
           },

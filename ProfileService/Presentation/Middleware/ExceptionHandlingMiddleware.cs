@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Presentation.Models;
+﻿using Presentation.Models;
 using System.Net;
 using System.Text.Json;
 

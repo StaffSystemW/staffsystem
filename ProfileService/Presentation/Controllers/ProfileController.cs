@@ -43,8 +43,6 @@ public class ProfileController(IProfileService profileService) : ControllerBase
         return StatusCode(result.StatusCode, new ApiResponse(false, "Could not create profile", result));
     }
 
-
-    //[Authorize]
     [HttpPut("update")]
     public async Task<IActionResult> Update([FromBody] ProfileUpdateForm dto)
     {
@@ -64,7 +62,6 @@ public class ProfileController(IProfileService profileService) : ControllerBase
         return Ok(new ApiResponse(true, "Profile was updated", result));
     }
 
-    //[Authorize]
     [HttpPut("complete")]
     public async Task<IActionResult> Complete([FromBody] CompleteProfileForm dto)
     {

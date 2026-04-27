@@ -19,7 +19,7 @@ public class ProfileUpdateValidator : AbstractValidator<ProfileUpdateForm>
             .Matches(@"^\+?[0-9\s\-]+$")
             .WithMessage("Ange nummer i rätt format");
 
-        RuleFor(x => x.imageUrl)
+        RuleFor(x => x.ImageUrl)
             .Must(url => string.IsNullOrEmpty(url) || Uri.IsWellFormedUriString(url, UriKind.Absolute))
             .WithMessage("Invalid image URL");
 

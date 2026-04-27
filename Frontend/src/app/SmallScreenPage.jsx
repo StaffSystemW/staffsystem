@@ -14,7 +14,6 @@ const SmallScreenPage = () => {
           ,<strong> microservices</strong>, <strong>React</strong> och
           <strong> DevSecOps</strong> — inte responsiv design i nuläget.
         </p>
-        <p>Öppna gärna sidan på laptop eller desktop för bästa upplevelse.</p>
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ public class ProfileManager(IProfileRepository profileRepository, IAddressReposi
     private readonly IProfileRepository _profileRepository = profileRepository;
     private readonly IAddressRepository _addressRepository = addressRepository;
 
-    // Get
     public async Task<ServiceResult<Profile>> GetProfile(string userId)
     {
         var profile = await _profileRepository.GetByIdAsync(userId);
@@ -26,7 +25,6 @@ public class ProfileManager(IProfileRepository profileRepository, IAddressReposi
         return ServiceResult<Profile>.Success(model);
     }
 
-    // Create
     public async Task<ServiceResult<ProfileEntity>> CreateProfile(ProfileCreateForm form)
     {
 
@@ -50,9 +48,6 @@ public class ProfileManager(IProfileRepository profileRepository, IAddressReposi
         return ServiceResult<ProfileEntity>.Success(resultProfile);
     }
 
-    // Update
-    // Behöver eventuellt skapa en ny metod för när användaren gör
-    // färdigt sin profil efter att kontot skapats
     public async Task<ServiceResult<ProfileEntity>> UpdateProfile(string userId, ProfileUpdateForm form)
     {
         var profile = await _profileRepository.GetByIdAsync(userId);

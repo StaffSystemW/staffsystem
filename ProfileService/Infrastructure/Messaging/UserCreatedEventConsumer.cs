@@ -34,7 +34,6 @@ public class UserCreatedEventConsumer : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        Console.WriteLine("🚀 Consumer started");
 
         _processor.ProcessMessageAsync += ProcessMessage;
         _processor.ProcessErrorAsync += ProcessError;
@@ -44,15 +43,10 @@ public class UserCreatedEventConsumer : IHostedService
 
     private async Task ProcessMessage(ProcessMessageEventArgs args)
     {
-        Console.WriteLine($"[Consumer] Received: {args.Message.MessageId}");
         var body = args.Message.Body.ToString();
 
         var userCreatedEvent =
-            JsonSerializer.Deserialize<UserCreatedEvent>(body);
-
-        if (userCreatedEvent == null)
-            throw new Exception("Invalid message payload");
-
+            JsonSerializer.Deserialize<UserCreatedEvent>(body) ?? throw new Exception("Invalid message payload");
         using var scope = _scopeFactory.CreateScope();
 
         var handler =

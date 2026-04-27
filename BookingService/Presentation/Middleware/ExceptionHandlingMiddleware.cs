@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Presentation.Models;
+﻿using Presentation.Models;
 using System.Net;
 using System.Text.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Presentation.Middleware;
 public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)

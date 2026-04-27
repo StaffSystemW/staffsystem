@@ -8,8 +8,6 @@ const CompleteProfilePage = () => {
   const { isReadyForGuards, isProfileComplete } = useAuth();
   const navigate = useNavigate();
 
-  console.log('isReadyForGuards: ', isReadyForGuards);
-  console.log('isProfileComplete: ', isProfileComplete);
   useEffect(() => {
     if (!isReadyForGuards) return;
 

@@ -173,7 +173,7 @@ const SignupForm = () => {
       navigate('/bookings', { replace: true });
     } catch (err) {
       console.error('Signup failed:', err);
-      console.log('err: ', err);
+      console.error('err: ', err);
       setError(err?.message || err.message || 'Något gick fel');
     } finally {
       setLoading(false);

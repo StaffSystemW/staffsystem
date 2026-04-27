@@ -19,7 +19,7 @@ export async function signUp(userInformation) {
       body: JSON.stringify(userInformation),
     });
   } catch (error) {
-    console.log('error: ', error);
+    console.error('error: ', error);
 
     if (error.status === 409) {
       throw new Error('Mejladressen används redan');

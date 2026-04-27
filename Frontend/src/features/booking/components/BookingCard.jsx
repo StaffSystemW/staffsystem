@@ -1,14 +1,8 @@
-import React from 'react';
 import { useState } from 'react';
-import { useAuth } from '../../../context/AuthProvider';
 import { ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const BookingCard = ({ booking }) => {
-  console.log('booking;: ', booking);
-
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, hasRole } = useAuth();
 
   const formatTime = (time) => time?.slice(11, 16).replace(':', '.');
   const formatDate = (date) => {

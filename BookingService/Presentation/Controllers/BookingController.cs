@@ -69,7 +69,6 @@ public class BookingController(IBookingService bookingService) : ControllerBase
 
     [Authorize]
     [HttpGet("getbyuserid/{id}")]
-    //Kanske skriva om nedan så att man kan ta in vilket expression som helst och inte bara id
     public async Task<IActionResult> GetByUserId(string id)
     {
         if(id != null)

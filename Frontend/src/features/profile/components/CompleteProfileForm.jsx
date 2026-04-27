@@ -9,8 +9,6 @@ const CompleteProfileForm = () => {
   const navigate = useNavigate();
   const { userProfile, setUserProfile, refreshProfile } = useAuth();
 
-  console.log('userProfile', userProfile);
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -212,8 +210,6 @@ const CompleteProfileForm = () => {
           zipCode: form.address.zipCode.trim(),
         },
       };
-
-      console.log('form:', cleanedForm);
 
       await completeProfile(cleanedForm);
 

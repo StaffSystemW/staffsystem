@@ -13,10 +13,8 @@ public abstract class BaseRepository<TEntity>(DataContext dataContext) : IBaseRe
     {
         try
         {
-            // Save changes to the database
             var changes = await _dataContext.SaveChangesAsync();
 
-            // Return the number of state entries written to the database
             return changes;
         }
         catch (Exception ex)
@@ -26,7 +24,6 @@ public abstract class BaseRepository<TEntity>(DataContext dataContext) : IBaseRe
         }
     }
 
-    // Create
     public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         if (entity == null)
@@ -34,7 +31,6 @@ public abstract class BaseRepository<TEntity>(DataContext dataContext) : IBaseRe
 
         try
         {
-            // Add entity to the DbSet
             var success = await _dbSet.AddAsync(entity);
             if (success != null)
                 return success.Entity;
@@ -48,7 +44,6 @@ public abstract class BaseRepository<TEntity>(DataContext dataContext) : IBaseRe
         }
     }
 
-    // Read
     public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)
@@ -88,12 +83,10 @@ public abstract class BaseRepository<TEntity>(DataContext dataContext) : IBaseRe
         catch (Exception ex)
         {
             Console.WriteLine($"An error occurred while retrieving entities: {ex.Message}");
-            return new List<TEntity>();
+            return [];
         }
     }
 
-
-    // Update
     public virtual async Task<TEntity> UpdateAsync(TEntity entity)
     {
         if (entity == null)
@@ -112,7 +105,6 @@ public abstract class BaseRepository<TEntity>(DataContext dataContext) : IBaseRe
         }
     }
 
-    // Delete
     public virtual async Task<bool> DeleteAsync(TEntity entity)
     {
         if (entity == null)

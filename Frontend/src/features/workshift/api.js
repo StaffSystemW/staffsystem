@@ -6,7 +6,6 @@ export const getWorkshifts = () => {
 };
 
 export const getWorkshift = (workshiftId) => {
-  console.log('workshiftId', workshiftId);
   return apiFetch(API_ENDPOINTS.workshift, workshiftId);
 };
 
@@ -23,8 +22,6 @@ export const updateWorkshift = (payload, id) => {
     starttime: `${payload.starttime}:00`,
     endtime: `${payload.endtime}:00`,
   };
-
-  console.log('payload:', normalizedPayload);
 
   return apiFetch(API_ENDPOINTS.workshift, id, {
     method: 'PUT',

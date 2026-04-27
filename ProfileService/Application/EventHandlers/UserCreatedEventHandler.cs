@@ -5,18 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.EventHandlers;
 
-public class UserCreatedEventHandler
+public class UserCreatedEventHandler(IProfileRepository profileRepository)
 {
-    private readonly IProfileRepository _profileRepository;
-
-    public UserCreatedEventHandler(IProfileRepository profileRepository)
-    {
-        _profileRepository = profileRepository;
-    }
+    private readonly IProfileRepository _profileRepository = profileRepository;
 
     public async Task Handle(UserCreatedEvent evt)
     {
-        Console.WriteLine($"[HANDLER START] UserId: {evt.UserId}");
 
         var profile = new ProfileEntity
         {
@@ -35,11 +29,9 @@ public class UserCreatedEventHandler
         {
             await _profileRepository.AddAsync(profile);
             await _profileRepository.SaveAsync();
-            Console.WriteLine($"[PROFILE CREATED] UserId: {evt.UserId}");
         }
         catch (DbUpdateException)
         {
-            Console.WriteLine("Duplicate profile prevented by DB constraint");
         }
     }
 }

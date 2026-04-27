@@ -74,18 +74,6 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("Passledare", policy => policy.RequireRole("Passledare"));
 
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("GatewayPolicy", policy =>
-//    {
-//        policy.WithOrigins("http://localhost:5173")
-//              .AllowAnyHeader()
-//              .AllowAnyMethod()
-//              .AllowCredentials();
-//    });
-//});
-
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -108,7 +96,6 @@ app.MapHealthChecks("/health");
 app.UseHttpsRedirection();
 
 app.UseRouting();
-//app.UseCors("GatewayPolicy");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();

@@ -37,7 +37,6 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             return new ServiceResult
             {
                 Succeeded = false,
-                //Error = result.Error
             };
 
         }
@@ -46,7 +45,7 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             return new ServiceResult
             {
                 Succeeded = false,
-                //Error = ex.Message
+                Message = ex.Message
             };
         }
 
@@ -89,7 +88,7 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             return new ServiceResult<IEnumerable<Workshift>>
             {
                 Succeeded = false,
-                //Error = ex.Message
+                Message = ex.Message
             };
         }
     }
@@ -123,7 +122,7 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             return new ServiceResult<Workshift>
             {
                 Succeeded = false,
-                //Error = entity.Error
+                Message = entity.Error
             };
 
         }
@@ -132,7 +131,7 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             return new ServiceResult<Workshift>
             {
                 Succeeded = false,
-                //Error = ex.Message
+                Message = ex.Message
             };
         }
     }
@@ -181,7 +180,7 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             var entity = await _repository.GetAsync(x => x.Id == id);
             if (entity.Succeeded)
             {
-                var result = await _repository.RemoveAsync(entity.Result);
+                var result = await _repository.RemoveAsync(entity.Result!);
                 if (result.Succeeded)
                 {
                     return new ServiceResult
@@ -192,14 +191,14 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
                 return new ServiceResult
                 {
                     Succeeded = false,
-                    //Error = result.Error
+                    Message = result.Error!
                 };
 
             }
             return new ServiceResult
             {
-                //Succeeded = false,
-                //Error = entity.Error
+                Succeeded = false,
+                Message = entity.Error!
             };
 
         }
@@ -208,7 +207,7 @@ public class WorkshiftManager(IWorkshiftRepository workshiftRepository) : IWorks
             return new ServiceResult
             {
                 Succeeded = false,
-                //Error = ex.Message
+                Message = ex.Message
             };
         }
     }
