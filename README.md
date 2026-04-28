@@ -9,7 +9,7 @@ A production-style fullstack system for booking work shifts.
 - Event-driven architecture (service bus)
 - Docker-based deployment
 
-👉 https://rasmuswaleij.se/personalportalen
+https://rasmuswaleij.se/personalportalen
 
 ---
 
@@ -100,6 +100,16 @@ https://rasmuswaleij.se/api
 ---
 
 ## Deployment
+
+### Environment support
+
+The system is designed to run in multiple environments:
+
+- Local development via Visual Studio
+- Local containerized setup using Docker Compose
+- Cloud deployment on a VM
+
+Environment-specific configurations are handled through Docker Compose and environment variables.
 
 ### Deployment flow
 
