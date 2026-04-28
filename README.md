@@ -1,9 +1,22 @@
 ![.NET](https://img.shields.io/badge/.NET-8-blue)
+![React](https://img.shields.io/badge/React-18-blue)
 ![Docker](https://img.shields.io/badge/Docker-ready-blue)
+[![Live](https://img.shields.io/badge/demo-live-brightgreen)](https://rasmuswaleij.se/personalportalen)
 
 # StaffSystem
 
-A production-style **fullstack shift booking system** built with **.NET, React and modern DevSecOps practices**.
+## TL;DR
+
+A production-style fullstack system for booking work shifts.
+
+- .NET microservices + React frontend
+- API Gateway (YARP)
+- Event-driven architecture (service bus)
+- Docker-based deployment
+
+Live demo: https://rasmuswaleij.se/personalportalen
+
+---
 
 This project was built as my **final portfolio project during my .NET Fullstack YH education**.
 Instead of building multiple small demos, I focused on creating **one realistic system that demonstrates how modern software is built, tested, secured and deployed.**
@@ -26,13 +39,21 @@ The application is **publicly deployed** and can also be **run locally using Doc
   <img src="images/workshifts.png" width="45%" />
 </p>
 
-## Quick Overview (for recruiters)
+## What makes this project interesting?
 
-This project demonstrates how to build a production-style system using modern DevOps and distributed system practices.
+- Handles async workflows using events (user → profile auto-creation)
+- Uses API Gateway to centralize auth and routing
+- Demonstrates real-world DevOps setup (Docker + env configs)
+- Implements observability (tracing + health checks)
 
 ### Architecture
 
 <img src="images/component_diagram.png" width="45%" />
+
+1. Client calls API Gateway
+2. Gateway validates JWT
+3. Request routed to correct service
+4. Services communicate via events when needed
 
 ### Key capabilities
 
@@ -49,8 +70,10 @@ The system uses a service bus for asynchronous communication between services.
 
 Example:
 
-- When a user is created → an event is published
-- The profile service consumes the event and creates a user profile automatically
+1. User registers
+2. User service publishes `UserCreated`
+3. Profile service consumes event
+4. Profile is created automatically
 
 This enables:
 
@@ -70,50 +93,28 @@ API Gateway
 
 ---
 
-## Deployment
+### Deployment flow
 
-The system is designed to mimic a production setup:
-
-- Containerized services using Docker
-- API Gateway as single entry point
-- Environment-based configuration
-- Services communicate over internal network
-- Configuration via environment variables
-
-Typical flow:
-
-Code → Build → Container → Run
+- Code pushed to repository
+- Docker images are built
+- Services are deployed behind API Gateway
+- Configuration handled via environment variables
 
 ---
 
 ## About Me
 
-I am a soon-to-graduate **.NET Fullstack developer from a Swedish YH program at EC Utbildning**, currently looking for my **first junior developer role**.
+.NET Fullstack developer (graduating 2026) with focus on distributed systems and DevSecOps.
 
-My main interests are:
-
-- **Cybersecurity** and building systems resilient against modern threat actors
-- **Security implications of AI systems** and how AI will affect future software security
-- **DevSecOps** and integrating security practices into the development lifecycle
-- **Complex distributed systems** and the challenges that arise when systems scale
-
-This project represents the **engineering practices I want to bring into my first development role**.
+Looking for a junior role.
 
 ---
 
-### Design goals
+### Architectural Decisions
 
-- Maintainable architecture
-- Strong separation of concerns
-- Testability
-- Cloud-ready infrastructure
-- Observable systems
-
-### Architectural principles
-
-- SOLID
-- Clean Architecture
-- API-first design
+- Clean Architecture - separation between API, Application, Domain, Infrastructure
+- API Gateway - avoids duplicated auth logic across services
+- Event-driven communication - removes direct service dependencies
 
 ---
 
@@ -188,13 +189,6 @@ The backend consists of **ASP.NET Web APIs** designed around **Clean Architectur
 - Dependency injection
 - Health checks
 
-### Development principles
-
-- SOLID
-- Separation of concerns
-- Testability
-- Maintainability
-
 ---
 
 ## API Gateway
@@ -241,13 +235,11 @@ This pattern improves maintainability, security and consistency across services.
 
 ---
 
-## Security Practices
+### Security considerations
 
-Security considerations include:
-
-- JWT-based authentication
-- Secure handling of container images
-- Separation of concerns via API Gateway
+- JWT authentication handled at gateway level
+- No direct service exposure (internal network only)
+- Environment-based configuration (no secrets in code)
 
 ---
 
